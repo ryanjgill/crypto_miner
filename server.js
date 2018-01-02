@@ -12,11 +12,11 @@ const PORT = 3030
 const SAVE_DELAY = 1000 * 10 // every 10 seconds
 const serverIP = `${ip.address()}:${PORT}`
 const r = require('rethinkdbdash')({
-  servers: [{
-    host: config.rethinkdb.url, 
-    port: config.rethinkdb.port
-  }],
-  db: 'crypto_miner_monitor'
+  host: config.rethinkdb.url, 
+  port: config.rethinkdb.port,
+  db: 'crypto_miner_monitor',
+  user: config.rethinkdb.user,
+  password: config.rethinkdb.password
 })
 
 let lastSaveTime = 0
