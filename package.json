@@ -1,0 +1,26 @@
+{
+  "name": "crypto_miner",
+  "version": "1.0.0",
+  "description": "Monitor mining hardware temperatures and hashrate.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryan Gill",
+  "license": "ISC",
+  "keywords": [
+    "crypto",
+    "mining",
+    "monitor"
+  ],
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-ws": "^3.0.0",
+    "ip": "^1.1.5",
+    "morgan": "^1.9.0",
+    "request-promise": "^4.2.2",
+    "rethinkdbdash": "^2.3.31",
+    "socket.io": "^2.0.4"
+  }
+}

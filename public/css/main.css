@@ -1,0 +1,73 @@
+@charset "UTF-8";
+.hide {
+  display: none;
+}
+
+body {
+  font-family: "Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
+  color: #aaa;
+  background-color: #272b30;
+  font-size: 2em;
+}
+
+h2 {
+  text-align: center;
+  color: #7a8288;
+  font-weight: 400;
+  font-size: 3em;
+  line-height: 1.25;
+  margin: 1rem 0;
+}
+
+
+.rig-name-and-rate span {
+  font-size: 1.5em;
+}
+
+.readings {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.readings:nth-of-type(2) {
+  font-size: 0.4em;
+}
+
+.reading {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  min-width: 100px;
+  margin-bottom: 2rem;
+}
+
+.reading label {
+  display: block;
+  margin-top: 0;
+  text-align: center;
+}
+
+.reading span {
+  display: block;
+  text-align: center;
+  font-size: 2em;
+  font-weight: 100;
+}
+.reading span::after {
+  font-size: .65em;
+  content: " °C";
+}
+
+.rig-name-and-rate .reading span::after {
+  content: "";
+}
+
+.rig-name-and-rate .reading:last-of-type span::after {
+  font-size: .65em;
+  content: " Mh/s";
+}
