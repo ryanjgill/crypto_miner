@@ -49,7 +49,7 @@ io.on('connection', client => {
   console.log('Total clients: ', io.engine.clientsCount)
   
   r.table('temperatures')
-    .orderBy({ index: 'date' })
+    .orderBy(r.desc({ index: 'date' }))
     .limit(30)
     .run()
     .then(results => {
