@@ -36,7 +36,7 @@ var options = {
   },
   tooltip: {
     valueSuffix: '°C',
-		enabled: false
+		enabled: true
   },
   legend: {
     layout: 'horizontal',
@@ -49,11 +49,14 @@ var options = {
     itemStyle: {
       color: '#aaaaaa'
     }
-  },
+	},
 	plotOptions: {
-    series: {
-        enableMouseTracking: false
-    }
+		series: {
+			enableMouseTracking: true,
+			marker: {
+					enabled: false
+			}
+		}
 	},
   series: [{
     name: 'room_temp',
