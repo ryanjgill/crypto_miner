@@ -164,11 +164,11 @@ new Vue({
 				room_temps: []
 			})
 
-			this.options.series[0].data = chartData.room_temps
-			this.options.series[1].data = chartData.case_temps
-			this.options.series[2].data = chartData.radiator_temps
-			this.options.series[3].data = chartData.gpu_1_temps
-			this.options.series[4].data = chartData.gpu_2_temps
+			this.options.series[0].data = chartData.room_temps.slice().reverse()
+			this.options.series[1].data = chartData.case_temps.slice().reverse()
+			this.options.series[2].data = chartData.radiator_temps.slice().reverse()
+			this.options.series[3].data = chartData.gpu_1_temps.slice().reverse()
+			this.options.series[4].data = chartData.gpu_2_temps.slice().reverse()
 		},
     handleReading(data) {
       Object.keys(data).forEach(key => this.$data[key] = (+data[key]).toFixed(0))
