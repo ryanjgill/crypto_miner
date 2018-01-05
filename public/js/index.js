@@ -1,20 +1,3 @@
-function getRandomNumber(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-let dummyData = (min, max, count) => {
-	let data = []
-	let _count = count ? count : 10
-	
-	for(let x = 0; x < _count; x++) {
-		data.push([new Date().getTime() - ((_count - x)* 2000), getRandomNumber(min, max)])
-	}
-	
-	return data;
-}
-
 Vue.use(VueHighcharts);
 
 var options = {
@@ -74,19 +57,19 @@ var options = {
 	},
   series: [{
     name: 'room_temp',
-    data: dummyData(31, 33)
+    data: []
   }, {
     name: 'case_temp',
-    data: dummyData(45, 49)
+    data: []
   }, {
     name: 'radiator_temp',
-    data: dummyData(49, 54)
+    data: []
   }, {
     name: 'gpu_1_temp',
-    data: dummyData(65, 68)
+    data: []
   }, {
     name: 'gpu_2_temp',
-    data: dummyData(65, 69)
+    data: []
   }]
 };
 
@@ -160,10 +143,33 @@ new Vue({
 	},
 	created() {
     this.socket = io();
-
-    this.socket.on('reading', this.handleReading)
+		this.socket.on('lastReadings', this.handleLastReadings)
+		this.socket.on('reading', this.handleReading)
   },
   methods: {
+		handleLastReadings(data) {
+			let chartData = data.reduce((series, reading, index) => {
+				let ticks = new Date(reading.date).getTime()
+				series['case_temps'].push([ticks, +reading.case_temp])
+				series['gpu_1_temps'].push([ticks, +reading.gpu_1_temp])
+				series['gpu_2_temps'].push([ticks, +reading.gpu_2_temp])
+				series['radiator_temps'].push([ticks, +reading.radiator_temp])
+				series['room_temps'].push([ticks, +reading.room_temp])
+				return series
+			}, {
+				case_temps: [],
+				gpu_1_temps: [],
+				gpu_2_temps: [],
+				radiator_temps: [],
+				room_temps: []
+			})
+
+			this.options.series[0].data = chartData.room_temps
+			this.options.series[1].data = chartData.case_temps
+			this.options.series[2].data = chartData.radiator_temps
+			this.options.series[3].data = chartData.gpu_1_temps
+			this.options.series[4].data = chartData.gpu_2_temps
+		},
     handleReading(data) {
       Object.keys(data).forEach(key => this.$data[key] = (+data[key]).toFixed(0))
       this.updateChart()

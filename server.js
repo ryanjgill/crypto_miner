@@ -47,6 +47,18 @@ app.get('/lastReading', (req, res, next) => {
 io.on('connection', client => {
   console.log('New client connected.')
   console.log('Total clients: ', io.engine.clientsCount)
+  
+  r.table('temperatures')
+    .orderBy({ index: 'date' })
+    .limit(30)
+    .run()
+    .then(results => {
+      client.emit('lastReadings', results)
+    })
+    .catch(err => {
+      console.log(err)
+      next()
+    })
 
   client.on('resetRig', data => {
     console.log('resetRig: ', data)
