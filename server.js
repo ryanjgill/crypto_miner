@@ -26,6 +26,7 @@ let hashRates = {
 }
 let lastReading = {}
 
+app.set('view engine', 'pug')
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -34,19 +35,33 @@ app.use(morgan('tiny'))
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// route for main dashboard
 app.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'))
+  res.render('index')
   next()
 })
 
+// route for history views
+app.use('/history', (req, res, next) => {
+  let type = req.query && req.query.type
+    ? req.query.type 
+    : 'case_temp'
+
+  res.locals.type = type
+  res.render('history')
+  next()
+})
+
+// rest call for lastReading
 app.get('/lastReading', (req, res, next) => {
   res.json(lastReading)
   next()
 })
 
+// sockets for main dashboard
 io.on('connection', client => {
   console.log('New client connected.')
-  console.log('Total clients: ', io.engine.clientsCount)
+  console.log('Dashboard Total clients: ', io.engine.clientsCount)
   
   r.table('temperatures')
     .orderBy({ index: r.desc('date') })
@@ -63,6 +78,33 @@ io.on('connection', client => {
   client.on('resetRig', data => {
     console.log('resetRig: ', data)
   });
+
+  client.on('disconnect', () => {
+    console.log('client left.')
+  });
+});
+
+// sockets for historic data
+io.of('/historicData').on('connection', client => {
+  let type = client.handshake.query.type
+
+  console.log('New client connected.')
+  console.log('Historic Data Total clients: ', io.engine.clientsCount)
+
+  // get the temperatures based on query type and send to client
+  r.table('temperatures')
+    .orderBy({ index: r.asc('date') })
+    .limit(10000)
+    .map(function (row) {
+      return [ row('date'), row(type).coerceTo('number')]
+    })
+    .run()
+    .then(results => {
+      client.emit('historicData', results.map(result => [new Date(result[0]).getTime(), result[1]]))
+    })
+    .catch(err => {
+      console.log(err)
+    })
 
   client.on('disconnect', () => {
     console.log('client left.')

@@ -8,6 +8,29 @@ body {
   color: #aaa;
   background-color: #272b30;
   font-size: 2em;
+  height: 100%;
+	padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.dashboard {
+  min-height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.dashboard .rig-name-and-rate, .dashboard .readings {
+  flex: 1 1 auto;
+}
+
+.dashboard #chart {
+  flex: 1 1 auto;
+  padding: 0;
+  margin: 0;
+  height:100%;
 }
 
 h2 {
@@ -38,10 +61,18 @@ h2 {
   font-size: 0.4em;
 }
 
+.temperatures .reading:hover {
+  cursor: pointer;
+}
+
+.temperatures .reading label:hover {
+  cursor: pointer;
+}
+
 .reading {
   -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
   min-width: 100px;
   margin-bottom: 2rem;
 }
@@ -70,4 +101,23 @@ h2 {
 .rig-name-and-rate .reading:last-of-type span::after {
   font-size: .65em;
   content: " Mh/s";
+}
+
+/*
+  colors: ["#7cb5ec", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"]
+*/
+.temperatures .reading:nth-of-type(1) span {
+  color: #7cb5ec;
+}
+.temperatures .reading:nth-of-type(2) span {
+  color: #90ed7d;
+}
+.temperatures .reading:nth-of-type(3) span {
+  color: #f7a35c;
+}
+.temperatures .reading:nth-of-type(4) span {
+  color: #8085e9;
+}
+.temperatures .reading:nth-of-type(5) span {
+  color: #f15c80;
 }

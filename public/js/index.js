@@ -79,7 +79,7 @@ var options = {
 new Vue({
 	el: '#dashboard',
 	template: `
-	<div>
+	<div class="dashboard">
 		<div class="rig-name-and-rate readings">
 			<div class="reading">
 				<div>
@@ -94,32 +94,32 @@ new Vue({
 				</div>
 			</div>
 		</div>
-		<div class="readings">
-			<div class="reading">
+		<div class="readings temperatures">
+			<div class="reading" linkTo="room_temp" @click="viewHistory">
 				<div>
 					<label>Room</label>
 					<span>{{room_temp}}</span>
 				</div>
 			</div>
-			<div class="reading">
+			<div class="reading" linkTo="case_temp" @click="viewHistory">
 				<div>
 					<label>Case</label>
 					<span>{{case_temp}}</span>
 				</div>
 			</div>
-			<div class="reading">
+			<div class="reading" linkTo="radiator_temp" @click="viewHistory">
 				<div>
 					<label>Radiator</label>
 					<span>{{radiator_temp}}</span>
 				</div>
 			</div>
-			<div class="reading">
+			<div class="reading" linkTo="gpu_1_temp" @click="viewHistory">
 				<div>
 					<label>GPU 1</label>
 					<span>{{gpu_1_temp}}</span>
 				</div>
 			</div>
-			<div class="reading">
+			<div class="reading" linkTo="gpu_2_temp" @click="viewHistory">
 				<div>
 					<label>GPU 2</label>
 					<span>{{gpu_2_temp}}</span>
@@ -127,7 +127,9 @@ new Vue({
 			</div>
 		</div>
 		<div id="chart">
-			<highcharts :options="options" ref="highcharts"></highcharts>
+			<div id="series-chart">
+				<highcharts :options="options" ref="highcharts"></highcharts @click="viewHistory">
+			</div>
 		</div>
 	</div>
 	`,
@@ -172,6 +174,7 @@ new Vue({
 			this.options.series[2].data = chartData.radiator_temps.slice().reverse()
 			this.options.series[3].data = chartData.gpu_1_temps.slice().reverse()
 			this.options.series[4].data = chartData.gpu_2_temps.slice().reverse()
+			this.$refs.highcharts.chart.reflow()
 		},
     handleReading(data) {
       Object.keys(data).forEach(key => this.$data[key] = (+data[key]).toFixed(0))
@@ -185,6 +188,12 @@ new Vue({
 			series[2].addPoint([ticks, +this.$data.radiator_temp], false, true)
 			series[3].addPoint([ticks, +this.$data.gpu_1_temp], false, true)
 			series[4].addPoint([ticks, +this.$data.gpu_2_temp], true, true)
-    }
+		},
+		viewHistory(evt) {
+			let type = evt.currentTarget.attributes.linkTo.value
+			let slug = `history?type=${type}`
+
+			window.location.href = `${window.location.href}${slug}`
+		}
   }
 });
