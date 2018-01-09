@@ -33,7 +33,8 @@ app.use(bodyParser.urlencoded({
 
 app.use(morgan('tiny'))
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')))
+app.set('views', path.join(__dirname, 'views'))
 
 // route for main dashboard
 app.get('/', (req, res, next) => {
