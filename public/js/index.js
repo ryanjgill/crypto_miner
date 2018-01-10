@@ -52,9 +52,12 @@ var options = {
 	},
 	plotOptions: {
 		series: {
+			animation: {
+				duration: 3000
+			},
 			enableMouseTracking: true,
 			marker: {
-					enabled: false
+				enabled: false
 			}
 		}
 	},

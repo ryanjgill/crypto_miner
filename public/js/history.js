@@ -14,51 +14,51 @@ var options = {
 		zoomType: 'x'
 	},
 	title: {
-			text: 'Temperature history',
-			style: {
-				color: '#CCCCCC'
-			}
+		text: 'Temperature history',
+		style: {
+			color: '#CCCCCC'
+		}
 	},
 	subtitle: {
-			text: document.ontouchstart === undefined ?
-				'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+		text: document.ontouchstart === undefined ?
+			'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
 	},
 	xAxis: {
-			type: 'datetime'
+		type: 'datetime'
 	},
 	yAxis: {
-			title: {
-					text: 'Temperature C'
-			}
+		title: {
+			text: 'Temperature °C'
+		}
 	},
 	legend: {
-			enabled: false
+		enabled: false
 	},
 	plotOptions: {
-			area: {
-					fillColor: {
-							linearGradient: {
-									x1: 1,
-									y1: 1,
-									x2: 1,
-									y2: 0
-							},
-							stops: [
-									[0, window.colors[seriesNames.indexOf(window.type)]],
-									[1, Highcharts.Color(window.colors[seriesNames.indexOf(window.type)]).setOpacity(0).get('rgba')]
-							]
+		area: {
+			fillColor: {
+					linearGradient: {
+							x1: 1,
+							y1: 1,
+							x2: 1,
+							y2: 0
 					},
-					marker: {
-							radius: 2
-					},
-					lineWidth: 1,
-					states: {
-							hover: {
-									lineWidth: 1
-							}
-					},
-					threshold: null
-			}
+					stops: [
+							[0, window.colors[seriesNames.indexOf(window.type)]],
+							[1, Highcharts.Color(window.colors[seriesNames.indexOf(window.type)]).setOpacity(0).get('rgba')]
+					]
+			},
+			marker: {
+					radius: 2
+			},
+			lineWidth: 1,
+			states: {
+					hover: {
+							lineWidth: 1
+					}
+			},
+			threshold: null
+		}
 	},
 	series: [{
 			type: 'area',
@@ -83,8 +83,7 @@ new Vue({
 	},
 	created() {
 		let color = this.options.colors[seriesNames.indexOf(window.type)]
-		console.log(Highcharts.Color(this.options.colors[seriesNames.indexOf(window.type)]).setOpacity(0.7).get('rgba'))
-		console.log(Highcharts.Color(this.options.colors[seriesNames.indexOf(window.type)]).setOpacity(0).get('rgba'))
+		
 		this.options.title.text = window.type.split('_').join(' ').toUpperCase() + 'S'
 		this.options.title.style.color = color
 		this.socket = io('/historicData', { query: `type=${window.type}`})

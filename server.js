@@ -94,14 +94,14 @@ io.of('/historicData').on('connection', client => {
 
   // get the temperatures based on query type and send to client
   r.table('temperatures')
-    .orderBy({ index: r.asc('date') })
-    .limit(10000)
+    .orderBy({ index: r.desc('date') })
+    .limit(100000)
     .map(function (row) {
-      return [ row('date'), row(type).coerceTo('number')]
+      return [ row('date').toEpochTime().mul(1000), row(type).coerceTo('number')]
     })
     .run()
     .then(results => {
-      client.emit('historicData', results.map(result => [new Date(result[0]).getTime(), result[1]]))
+      client.emit('historicData', results.reverse())
     })
     .catch(err => {
       console.log(err)
