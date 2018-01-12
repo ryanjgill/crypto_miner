@@ -93,15 +93,14 @@ io.of('/historicData').on('connection', client => {
   console.log('Historic Data Total clients: ', io.engine.clientsCount)
 
   // get the temperatures based on query type and send to client
-  r.table('temperatures')
+  r.table('historic_readings')
     .orderBy({ index: r.desc('date') })
-    .limit(100000)
     .map(function (row) {
       return [ row('date').toEpochTime().mul(1000), row(type).coerceTo('number')]
     })
     .run()
     .then(results => {
-      client.emit('historicData', results.reverse())
+      client.emit('historicData', results)
     })
     .catch(err => {
       console.log(err)

@@ -93,7 +93,7 @@ new Vue({
 		handleHistoricData(data) {
 			this.options.series[0].color = this.options.colors[seriesNames.indexOf(window.type)]
 			this.options.series[0].name = window.type.split('_').join(' ')
-			this.options.series[0].data = data
+			this.options.series[0].data = data.reverse()
 		}
   }
 });
