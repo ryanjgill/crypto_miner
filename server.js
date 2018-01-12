@@ -63,6 +63,8 @@ app.get('/lastReading', (req, res, next) => {
 io.on('connection', client => {
   console.log('New client connected.')
   console.log('Dashboard Total clients: ', io.engine.clientsCount)
+
+  client.emit('reading', lastReading)
   
   r.table('temperatures')
     .orderBy({ index: r.desc('date') })
