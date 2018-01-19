@@ -21,7 +21,7 @@ r.table('temperatures')
 
       
       if (ticks - prevTime > (1000 * 60 * 10)) {
-        console.log(ticks - prevTime)
+        //console.log(ticks - prevTime)
         output.push(item)
         prevTime = ticks
       }
@@ -30,13 +30,20 @@ r.table('temperatures')
     }, [])
 
     r.table('historic_readings')
-      .insert(results)
+      .delete({durability: "soft"})
       .run()
-      .then(data => {
-        console.log('inserted: ', data.inserted)
-        process.exit()
+      .then((deleteResults) => {
+        console.log(deleteResults)
+        r.table('historic_readings')
+          .insert(results)
+          .run()
+          .then(data => {
+            console.log('inserted: ', data.inserted)
+            process.exit()
+          })
+          .catch(err => console.log(err))
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err))   
   })
   .catch(err => {
     console.log(err)
