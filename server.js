@@ -53,6 +53,17 @@ app.use('/history', (req, res, next) => {
   next()
 })
 
+// route for hash rate views
+app.use('/hash_rates', (req, res, next) => {
+  let type = req.query && req.query.type
+    ? req.query.type 
+    : 'case_temp'
+
+  res.locals.type = type
+  res.render('hashRates')
+  next()
+})
+
 // rest call for lastReading
 app.get('/lastReading', (req, res, next) => {
   res.json(lastReading)

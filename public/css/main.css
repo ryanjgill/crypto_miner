@@ -61,11 +61,11 @@ h2 {
   font-size: 0.4em;
 }
 
-.temperatures .reading:hover {
+.rig-name-and-rate .reading:nth-of-type(2):hover, .temperatures .reading:hover {
   cursor: pointer;
 }
 
-.temperatures .reading label:hover {
+.rig-name-and-rate .reading:nth-of-type(2) label:hover, .temperatures .reading label:hover {
   cursor: pointer;
 }
 
@@ -92,6 +92,10 @@ h2 {
 .reading span::after {
   font-size: .65em;
   content: " °C";
+}
+
+.rig-name-and-rate .reading:nth-of-type(2) span {
+  color: #e4d354;
 }
 
 .rig-name-and-rate .reading span::after {

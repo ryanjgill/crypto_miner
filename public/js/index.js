@@ -90,7 +90,7 @@ new Vue({
 					<span>{{name}}</span>
 				</div>
 			</div>
-			<div class="reading">
+			<div class="reading" linkTo="gill_hash_rate" @click="viewHashRates">
 				<div>
 					<label>Hash Rate</label>
 					<span title="Megahashes per second">{{hashRate}}</span>
@@ -191,6 +191,12 @@ new Vue({
 			series[2].addPoint([ticks, +this.$data.radiator_temp], false, true)
 			series[3].addPoint([ticks, +this.$data.gpu_1_temp], false, true)
 			series[4].addPoint([ticks, +this.$data.gpu_2_temp], true, true)
+		},
+		viewHashRates(evt) {
+			let type = evt.currentTarget.attributes.linkTo.value
+			let slug = `hash_rates?type=${type}`
+
+			window.location.href = `${window.location.href}${slug}`
 		},
 		viewHistory(evt) {
 			let type = evt.currentTarget.attributes.linkTo.value
