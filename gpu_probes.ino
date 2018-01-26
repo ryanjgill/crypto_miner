@@ -5,8 +5,8 @@
 // Using Pin 5 of MKR1000
 #define ONE_WIRE_BUS_PIN 5
 // TODO: Move out ot separate file
-#define SECRET_SSID "AC5Ghz"
-#define SECRET_PASS "668764BCD9"
+#define SECRET_SSID "YOUR_SSID"
+#define SECRET_PASS "PASSWORD"
 #define RIG_NAME "Gill"
 
 char ssid[] = SECRET_SSID;
